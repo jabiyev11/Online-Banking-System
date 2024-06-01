@@ -3,7 +3,7 @@ import java.util.*;
 public class BankAccountManager {
 
     private Map<Integer, BankAccount> accounts;
-    private Integer nextAccountNumber;
+    private final Integer nextAccountNumber;
 
     public BankAccountManager() {
         accounts = new HashMap<>();
@@ -141,10 +141,10 @@ public class BankAccountManager {
     }
 
 
-    public List<BankAccount> searchByCustomerID(Integer customerID){
+    public List<BankAccount> searchByCustomerID(Customer customer){
         List<BankAccount> matchingAccounts = new ArrayList<>();
         for(BankAccount account : accounts.values()){
-            if(account.getCustomerID() == customerID){
+            if(account.getCustomer().getCustomerID().equals(customer.getCustomerID())){
                 matchingAccounts.add(account);
             }
         }

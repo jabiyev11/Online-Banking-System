@@ -7,13 +7,13 @@ public class BankAccount {
     private Double balance;
     private String accountType;
     private List<String> transactionHistory;
-    private Integer customerID;
+    private Customer customer;
 
-    public BankAccount(Integer accountNumber, Double balance, String accountType, Integer customerID) {
+    public BankAccount(Integer accountNumber, Double balance, String accountType, Customer customer) {
         this.accountNumber = accountNumber;
         this.balance = balance;
         this.accountType = accountType;
-        this.customerID = customerID;
+        this.customer = customer;
         this.transactionHistory = new ArrayList<>();
     }
 
@@ -45,12 +45,12 @@ public class BankAccount {
         this.accountType = accountType;
     }
 
-    public Integer getCustomerID() {
-        return customerID;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomerID(Integer customerID) {
-        this.customerID = customerID;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public List<String> getTransactionHistory() {
