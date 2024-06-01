@@ -1,7 +1,4 @@
-import java.sql.SQLOutput;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class BankAccountManager {
 
@@ -64,7 +61,8 @@ public class BankAccountManager {
             BankAccount account = accounts.get(accountNumber);
             Double newBalance = account.getBalance() + amount;
             account.setBalance(newBalance);
-            System.out.println("Deposit " + amount + " AZN added into balance of " + accountNumber + "successfully");
+            account.addTransactionToHistory("Deposited $" + amount);
+            System.out.println("Deposit $" + amount + " added into balance of " + accountNumber + "successfully");
         } else {
             System.out.println("Account with number " + accountNumber + " is not found");
         }
@@ -77,7 +75,8 @@ public class BankAccountManager {
             if (account.getBalance() >= amount) {
                 Double newBalance = currentBalance - amount;
                 account.setBalance(newBalance);
-                System.out.println("Withdrawn " + amount + "AZN from account " + accountNumber);
+                account.addTransactionToHistory("Withdrawn $" + amount);
+                System.out.println("Withdrawn $" + amount + " from account " + accountNumber);
             } else {
                 System.out.println("Insufficient funds in the balance");
             }
@@ -96,9 +95,11 @@ public class BankAccountManager {
             if (currentBalanceOfSender >= amount) {
                 Double newBalanceOfSender = currentBalanceOfSender - amount;
                 accountOfSender.setBalance(newBalanceOfSender);
+                accountOfSender.addTransactionToHistory("Transferred $" + amount + " to account " + accountNumberOfReceiver);
                 Double newBalanceOfReceiver = currentBalanceOfReceiver + amount;
                 accountOfReceiver.setBalance(newBalanceOfReceiver);
-                System.out.println(amount + "AZN has been transferred to " + accountNumberOfReceiver + " account");
+                accountOfReceiver.addTransactionToHistory("Received $" + amount + " from account " + accountNumberOfSender);
+                System.out.println("$" + amount + " has been transferred to " + accountNumberOfReceiver + " account");
             } else {
                 System.out.println("Insufficient funds in the balance");
             }
@@ -107,6 +108,48 @@ public class BankAccountManager {
             System.out.println("Account with number " + accountNumberOfSender + "and/or " + accountNumberOfReceiver + " is/are not found");
         }
 
+    }
+
+    public void displayAccount(Integer accountNumber) {
+        if (accounts.containsKey(accountNumber)) {
+            BankAccount account = accounts.get(accountNumber);
+            System.out.println("Account Details:");
+            System.out.println("Account Number: " + account.getAccountNumber());
+            System.out.println("Balance: $" + account.getBalance());
+            System.out.println("Account Type: " + account.getAccountType());
+        } else {
+            System.out.println("Account with number " + accountNumber + " not found");
+        }
+    }
+
+    public void displayTransactionHistory(Integer accountNumber) {
+        if (accounts.containsKey(accountNumber)) {
+            BankAccount account = accounts.get(accountNumber);
+            List<String> transactions = account.getTransactionHistory();
+            System.out.println("Transaction history for account " + accountNumber + ": ");
+            for (String transaction : transactions) {
+                System.out.println(transaction);
+            }
+        } else {
+            System.out.println("Account with number " + accountNumber + " not found");
+        }
+    }
+
+
+    public BankAccount searchByAccountNumber(Integer accountNumber){
+        return accounts.get(accountNumber);
+    }
+
+
+    public List<BankAccount> searchByCustomerID(Integer customerID){
+        List<BankAccount> matchingAccounts = new ArrayList<>();
+        for(BankAccount account : accounts.values()){
+            if(account.getCustomerID() == customerID){
+                matchingAccounts.add(account);
+            }
+        }
+
+        return matchingAccounts;
     }
 
 }

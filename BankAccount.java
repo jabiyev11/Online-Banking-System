@@ -1,13 +1,24 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class BankAccount {
 
     private Integer accountNumber;
     private Double balance;
     private String accountType;
+    private List<String> transactionHistory;
+    private Integer customerID;
 
-    public BankAccount(Integer accountNumber, Double balance, String accountType) {
+    public BankAccount(Integer accountNumber, Double balance, String accountType, Integer customerID) {
         this.accountNumber = accountNumber;
         this.balance = balance;
         this.accountType = accountType;
+        this.customerID = customerID;
+        this.transactionHistory = new ArrayList<>();
+    }
+
+    public void addTransactionToHistory(String transactionDetails){
+        transactionHistory.add(transactionDetails);
     }
 
     public Integer getAccountNumber() {
@@ -33,6 +44,23 @@ public class BankAccount {
     public void setAccountType(String accountType) {
         this.accountType = accountType;
     }
+
+    public Integer getCustomerID() {
+        return customerID;
+    }
+
+    public void setCustomerID(Integer customerID) {
+        this.customerID = customerID;
+    }
+
+    public List<String> getTransactionHistory() {
+        return transactionHistory;
+    }
+
+    public void setTransactionHistory(List<String> transactionHistory) {
+        this.transactionHistory = transactionHistory;
+    }
+
 
     @Override
     public String toString() {
