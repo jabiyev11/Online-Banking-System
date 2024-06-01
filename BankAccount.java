@@ -1,15 +1,16 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class BankAccount {
 
-    private Integer accountNumber;
+    private Long accountNumber;
     private Double balance;
     private String accountType;
     private List<String> transactionHistory;
     private Customer customer;
 
-    public BankAccount(Integer accountNumber, Double balance, String accountType, Customer customer) {
+    public BankAccount(Long accountNumber, Double balance, String accountType, Customer customer) {
         this.accountNumber = accountNumber;
         this.balance = balance;
         this.accountType = accountType;
@@ -21,11 +22,11 @@ public class BankAccount {
         transactionHistory.add(transactionDetails);
     }
 
-    public Integer getAccountNumber() {
+    public Long getAccountNumber() {
         return accountNumber;
     }
 
-    public void setAccountNumber(Integer accountNumber) {
+    public void setAccountNumber(Long accountNumber) {
         this.accountNumber = accountNumber;
     }
 
@@ -61,6 +62,18 @@ public class BankAccount {
         this.transactionHistory = transactionHistory;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BankAccount that = (BankAccount) o;
+        return Objects.equals(accountNumber, that.accountNumber) && Objects.equals(balance, that.balance) && Objects.equals(accountType, that.accountType) && Objects.equals(transactionHistory, that.transactionHistory) && Objects.equals(customer, that.customer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(accountNumber, balance, accountType, transactionHistory, customer);
+    }
 
     @Override
     public String toString() {

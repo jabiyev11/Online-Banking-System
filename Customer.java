@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Customer {
 
     private String name;
@@ -53,6 +55,19 @@ public class Customer {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return Objects.equals(name, customer.name) && Objects.equals(customerID, customer.customerID) && Objects.equals(address, customer.address) && Objects.equals(phoneNumber, customer.phoneNumber) && Objects.equals(email, customer.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, customerID, address, phoneNumber, email);
     }
 
     @Override

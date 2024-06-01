@@ -2,7 +2,7 @@ import java.util.*;
 
 public class BankAccountManager {
 
-    private Map<Integer, BankAccount> accounts;
+    private Map<Long, BankAccount> accounts;
     private final Integer nextAccountNumber;
 
     public BankAccountManager() {
@@ -25,14 +25,13 @@ public class BankAccountManager {
         return stringBuilder.toString();
     }
 
-    public void addBankAccount(BankAccount account) {
-        String accountNumber = generateAccountNumber();
-        account.setAccountNumber(Integer.parseInt(accountNumber));
-        accounts.put(Integer.parseInt(accountNumber), account);
+    public void addBankAccount(BankAccount account, String generatedAccountNumber) {
+        account.setAccountNumber(Long.parseLong(generatedAccountNumber));
+        accounts.put(Long.parseLong(generatedAccountNumber), account);
     }
 
     public void updateBankAccount(BankAccount account) {
-        int accountNumber = account.getAccountNumber();
+        long accountNumber = account.getAccountNumber();
         if (accounts.containsKey(accountNumber)) {
             accounts.put(accountNumber, account);
         } else {
@@ -56,7 +55,7 @@ public class BankAccountManager {
         }
     }
 
-    public void deposit(Integer accountNumber, Double amount) {
+    public void deposit(Long accountNumber, Double amount) {
         if (accounts.containsKey(accountNumber)) {
             BankAccount account = accounts.get(accountNumber);
             Double newBalance = account.getBalance() + amount;
@@ -68,7 +67,7 @@ public class BankAccountManager {
         }
     }
 
-    public void withdraw(Integer accountNumber, Double amount) {
+    public void withdraw(Long accountNumber, Double amount) {
         if (accounts.containsKey(accountNumber)) {
             BankAccount account = accounts.get(accountNumber);
             Double currentBalance = account.getBalance();
@@ -85,7 +84,7 @@ public class BankAccountManager {
         }
     }
 
-    public void transfer(Integer accountNumberOfSender, Integer accountNumberOfReceiver, Double amount) {
+    public void transfer(Long accountNumberOfSender, Long accountNumberOfReceiver, Double amount) {
         if (accounts.containsKey(accountNumberOfSender) && accounts.containsKey(accountNumberOfReceiver)) {
             BankAccount accountOfSender = accounts.get(accountNumberOfSender);
             BankAccount accountOfReceiver = accounts.get(accountNumberOfReceiver);
@@ -110,7 +109,7 @@ public class BankAccountManager {
 
     }
 
-    public void displayAccount(Integer accountNumber) {
+    public void displayAccount(Long accountNumber) {
         if (accounts.containsKey(accountNumber)) {
             BankAccount account = accounts.get(accountNumber);
             System.out.println("Account Details:");
@@ -122,7 +121,7 @@ public class BankAccountManager {
         }
     }
 
-    public void displayTransactionHistory(Integer accountNumber) {
+    public void displayTransactionHistory(Long accountNumber) {
         if (accounts.containsKey(accountNumber)) {
             BankAccount account = accounts.get(accountNumber);
             List<String> transactions = account.getTransactionHistory();
@@ -136,7 +135,7 @@ public class BankAccountManager {
     }
 
 
-    public BankAccount searchByAccountNumber(Integer accountNumber){
+    public BankAccount searchByAccountNumber(Long accountNumber){
         return accounts.get(accountNumber);
     }
 
