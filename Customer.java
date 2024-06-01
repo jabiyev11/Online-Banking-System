@@ -7,7 +7,6 @@ public class Customer {
     private String email;
 
 
-
     public Customer(Integer customerID, String name, String address, String phoneNumber, String email) {
         this.name = name;
         this.customerID = customerID;
