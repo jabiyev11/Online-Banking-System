@@ -44,6 +44,13 @@ public class Main {
                     printAllBankAccounts();
                     break;
                 case 10:
+                    generateMonthlyStatement();
+                    break;
+                case 11:
+                    System.out.println("Back To Main Menu");
+                    backToMainMenu();
+                    break;
+                case 12:
                     System.out.println("Exiting Program...");
                     scanner.close();
                     System.exit(0);
@@ -67,7 +74,9 @@ public class Main {
         System.out.println("7. Display Transaction History");
         System.out.println("8. Print All Customers");
         System.out.println("9. Print All Bank Accounts");
-        System.out.println("10. Exit");
+        System.out.println("10. Generate Monthly Statement");
+        System.out.println("11. Back To Main Menu");
+        System.out.println("12. Exit");
     }
 
     private static Integer getUserChoice() {
@@ -174,6 +183,26 @@ public class Main {
 
     private static void printAllBankAccounts() {
         bankAccountManager.printAllAccounts();
+    }
+
+    private static void generateMonthlyStatement(){
+        System.out.print("Enter Account Number: ");
+        Long accountNumber = scanner.nextLong();
+        scanner.nextLine();
+
+        System.out.print("Enter Year (YYYY): ");
+        Integer year = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Enter Month (MM): ");
+        Integer month = scanner.nextInt();
+        scanner.nextLine();
+
+        bankAccountManager.generateAndPrintMonthlyStatement(accountNumber, year, month);
+    }
+
+    private static void backToMainMenu(){
+        printMenu();
     }
 
 

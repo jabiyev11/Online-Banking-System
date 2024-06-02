@@ -1,4 +1,9 @@
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+
 
 public class BankAccountManager {
 
@@ -60,8 +65,9 @@ public class BankAccountManager {
             BankAccount account = accounts.get(accountNumber);
             Double newBalance = account.getBalance() + amount;
             account.setBalance(newBalance);
-            account.addTransactionToHistory("Deposited $" + amount);
-            System.out.println("Deposit $" + amount + " added into balance of " + accountNumber + "successfully");
+            LocalDate date = LocalDate.now();
+            account.addTransactionToHistory(amount, "Deposited $" + amount, date);
+            System.out.println("Deposit $" + amount + " added into balance of " + accountNumber + " successfully");
         } else {
             System.out.println("Account with number " + accountNumber + " is not found");
         }
@@ -74,7 +80,8 @@ public class BankAccountManager {
             if (account.getBalance() >= amount) {
                 Double newBalance = currentBalance - amount;
                 account.setBalance(newBalance);
-                account.addTransactionToHistory("Withdrawn $" + amount);
+                LocalDate date = LocalDate.now();
+                account.addTransactionToHistory(amount, "Withdrawn $" + amount, date);
                 System.out.println("Withdrawn $" + amount + " from account " + accountNumber);
             } else {
                 System.out.println("Insufficient funds in the balance");
@@ -89,15 +96,16 @@ public class BankAccountManager {
             BankAccount accountOfSender = accounts.get(accountNumberOfSender);
             BankAccount accountOfReceiver = accounts.get(accountNumberOfReceiver);
             Double currentBalanceOfSender = accountOfSender.getBalance();
-            Double currentBalanceOfReceiver = accountOfSender.getBalance();
+            Double currentBalanceOfReceiver = accountOfReceiver.getBalance();
 
             if (currentBalanceOfSender >= amount) {
                 Double newBalanceOfSender = currentBalanceOfSender - amount;
                 accountOfSender.setBalance(newBalanceOfSender);
-                accountOfSender.addTransactionToHistory("Transferred $" + amount + " to account " + accountNumberOfReceiver);
+                LocalDate date = LocalDate.now();
+                accountOfSender.addTransactionToHistory(amount, "Transferred $" + amount + " to account " + accountNumberOfReceiver, date);
                 Double newBalanceOfReceiver = currentBalanceOfReceiver + amount;
                 accountOfReceiver.setBalance(newBalanceOfReceiver);
-                accountOfReceiver.addTransactionToHistory("Received $" + amount + " from account " + accountNumberOfSender);
+                accountOfReceiver.addTransactionToHistory(amount, "Received $" + amount + " from account " + accountNumberOfSender, date);
                 System.out.println("$" + amount + " has been transferred to " + accountNumberOfReceiver + " account");
             } else {
                 System.out.println("Insufficient funds in the balance");
@@ -124,26 +132,65 @@ public class BankAccountManager {
     public void displayTransactionHistory(Long accountNumber) {
         if (accounts.containsKey(accountNumber)) {
             BankAccount account = accounts.get(accountNumber);
-            List<String> transactions = account.getTransactionHistory();
+            List<BankAccount.Transaction> transactions = account.getTransactionHistory();
             System.out.println("Transaction history for account " + accountNumber + ": ");
-            for (String transaction : transactions) {
-                System.out.println(transaction);
+            for (BankAccount.Transaction transaction : transactions) {
+                System.out.println(transaction.getDate() + " - " + transaction.getDescription() + " - Balance: $" + account.getBalance());
             }
         } else {
             System.out.println("Account with number " + accountNumber + " not found");
         }
     }
 
+    public void generateAndPrintMonthlyStatement(Long accountNumber, Integer year, Integer month) {
+        BankAccount account = accounts.get(accountNumber);
+        if(account != null){
+            YearMonth targetMonth = YearMonth.of(year, month);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    public BankAccount searchByAccountNumber(Long accountNumber){
+            System.out.println("Monthly Statement for Account Number: " + accountNumber);
+            System.out.println("Month: " + targetMonth.format(DateTimeFormatter.ofPattern("MMMM yyyy")));
+
+
+            List<BankAccount.Transaction> transactions = account.getTransactionHistory();
+            boolean foundTransactions = false;
+
+            for(BankAccount.Transaction transaction : transactions){
+                LocalDate transactionDate = transaction.getDate().atStartOfDay().toLocalDate();
+                if(transactionDate.getYear() == year && transactionDate.getMonthValue() == month){
+                    if(!foundTransactions){
+                        System.out.println("--------------------------------------------------");
+                        System.out.printf("%-15s %-30s %10s%n", "Date", "Description", "Amount");
+                        System.out.println("--------------------------------------------------");
+                        foundTransactions = true;
+                    }
+
+                    System.out.printf("%-15s %-30s $%10.2f%n", transactionDate.format(formatter), transaction.getDescription(), transaction.getAmount());
+                }
+            }
+
+            if(!foundTransactions){
+                System.out.println("No transaction found for " + targetMonth.format(DateTimeFormatter.ofPattern("MMMM yyyy")));
+            }else{
+                System.out.println("-------------------------------------------------");
+            }
+        }
+
+        else{
+            System.out.println("Account with number " + accountNumber + " not found");
+        }
+    }
+
+
+    public BankAccount searchByAccountNumber(Long accountNumber) {
         return accounts.get(accountNumber);
     }
 
 
-    public List<BankAccount> searchByCustomerID(Customer customer){
+    public List<BankAccount> searchByCustomerID(Customer customer) {
         List<BankAccount> matchingAccounts = new ArrayList<>();
-        for(BankAccount account : accounts.values()){
-            if(account.getCustomer().getCustomerID().equals(customer.getCustomerID())){
+        for (BankAccount account : accounts.values()) {
+            if (account.getCustomer().getCustomerID().equals(customer.getCustomerID())) {
                 matchingAccounts.add(account);
             }
         }
@@ -151,4 +198,11 @@ public class BankAccountManager {
         return matchingAccounts;
     }
 
+
+
+
 }
+
+
+
+
