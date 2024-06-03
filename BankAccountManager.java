@@ -44,11 +44,11 @@ public class BankAccountManager {
         }
     }
 
-    public void deleteBankAccount(Integer accountNumber) {
+    public void deleteBankAccount(Long accountNumber) {
         accounts.remove(accountNumber);
     }
 
-    public BankAccount getBankAccount(Integer accountNumber) {
+    public BankAccount getBankAccount(Long accountNumber) {
         return accounts.get(accountNumber);
 
     }

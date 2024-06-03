@@ -3,14 +3,14 @@ import java.util.Map;
 
 public class CustomerManager {
 
-    private Map<Integer, Customer> customers;
+    private static Map<Integer, Customer> customers;
+
     private Integer nextCustomerID;
 
     public CustomerManager() {
         customers = new HashMap<>();
         nextCustomerID = 1;
     }
-
 
     public void addCustomer(Customer customer) {
         customer.setCustomerID(nextCustomerID);
@@ -33,6 +33,16 @@ public class CustomerManager {
 
     public Customer getCustomer(int customerID) {
         return customers.get(customerID);
+    }
+
+    public static Customer getCustomerByUsername(String username){
+        for(Customer customer: customers.values()){
+            if(customer.getUsername().equals(username)){
+                return customer;
+            }
+
+        }
+        return null;
     }
 
     public void printAllCustomers() {
