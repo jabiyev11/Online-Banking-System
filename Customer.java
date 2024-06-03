@@ -12,7 +12,7 @@ public class Customer {
     private String password;
 
 
-    public Customer(Integer customerID, String name, String address, String phoneNumber, String email, String username, String password) {
+    public Customer(Integer customerID, String name, String address, String phoneNumber, String email, String username, String password, CustomerType customerType) {
         this.name = name;
         this.customerID = customerID;
         this.address = address;
@@ -20,6 +20,7 @@ public class Customer {
         this.email = email;
         this.username = username;
         this.password = password;
+        this.customerType = customerType;
     }
 
     public String getName() {

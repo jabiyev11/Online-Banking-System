@@ -102,12 +102,8 @@ public class Main {
 
         authentication.login(username, password);
 
-        if(authentication.isAuthenticated(username)){
+        if (authentication.isAuthenticated(username)) {
             loggedInCustomer = authentication.getAuthenticatedUser(username);
-
-            System.out.println("Welcome, " + loggedInCustomer.getName());
-        }else{
-            System.out.println("Invalid credentials, Try Again");
         }
 
     }
@@ -127,9 +123,10 @@ public class Main {
         System.out.print("Password: ");
         String password = scanner.nextLine();
 
-        Customer customer = new Customer(null, name, address, phoneNumber, email, username, password);
+        Customer customer = new Customer(null, name, address, phoneNumber, email, username, password, CustomerType.CUSTOMER);
         authentication.registerCustomer(username, password, customer);
     }
+
 
     private static void manageCustomer() {
         printCustomerManagementMenu();
@@ -181,7 +178,7 @@ public class Main {
         System.out.print("Password: ");
         String password = scanner.nextLine();
 
-        Customer customer = new Customer(null, name, address, phoneNumber, email, username, password);
+        Customer customer = new Customer(null, name, address, phoneNumber, email, username, password, CustomerType.CUSTOMER);
         customerManager.addCustomer(customer);
         System.out.println("Customer added successfully with ID: " + customer.getCustomerID());
     }
