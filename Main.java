@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -281,12 +282,19 @@ public class Main {
             throw new IllegalArgumentException("Customer not found with ID: " + customerID);
         }
 
-        System.out.print("Account Type: ");
-        String accountType = scanner.nextLine();
+        System.out.print("Account Type(SAVINGS, CHECKING, BUSINESS): ");
+        String accountTypeInput = scanner.nextLine().toUpperCase();
+        AccountType accountType = AccountType.valueOf(accountTypeInput);
+
+        List<CardType> suggestedCardTypes = accountType.getSuggestedCardTypes();
+        System.out.println("Suggested Card Types for " + accountType + ": "  + suggestedCardTypes);
+        System.out.println("Select Card Type from the above suggestions");
+        String cardTypeInput = scanner.nextLine().toUpperCase();
+        CardType cardType = CardType.valueOf(cardTypeInput);
 
         String generatedAccountNumber = BankAccountManager.generateAccountNumber();
 
-        BankAccount account = new BankAccount(Long.parseLong(generatedAccountNumber), 0.0, accountType, customer);
+        BankAccount account = new BankAccount(Long.parseLong(generatedAccountNumber), 0.0, accountTypeInput, customer);
         bankAccountManager.addBankAccount(account, generatedAccountNumber);
         System.out.println("Bank account added succesfully with Account Number " + account.getAccountNumber());
     }
@@ -300,9 +308,17 @@ public class Main {
         if (account != null) {
             System.out.println("Enter updated details:");
             System.out.print("Account Type: ");
-            String accountType = scanner.nextLine();
+            System.out.print("Account Type (SAVINGS, CHECKING, BUSINESS): ");
+            String accountTypeInput = scanner.nextLine().toUpperCase();
+            AccountType accountType = AccountType.valueOf(accountTypeInput);
 
-            account.setAccountType(accountType);
+            List<CardType> suggestedCardTypes = accountType.getSuggestedCardTypes();
+            System.out.println("Suggested Card Types for " + accountType + ": " + suggestedCardTypes);
+            System.out.print("Select Card Type from the above suggestions: ");
+            String cardTypeInput = scanner.nextLine().toUpperCase();
+            CardType cardType = CardType.valueOf(cardTypeInput);
+
+            account.setAccountType(accountTypeInput);
             bankAccountManager.updateBankAccount(account);
             System.out.println("Bank account updated successfully");
         } else {
