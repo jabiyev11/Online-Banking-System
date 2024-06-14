@@ -30,6 +30,7 @@ public class BankAccountManager {
         return stringBuilder.toString();
     }
 
+
     public void addBankAccount(BankAccount account, String generatedAccountNumber) {
 
         try {
@@ -75,6 +76,21 @@ public class BankAccountManager {
         System.out.print("All Bank Accounts: ");
         for (BankAccount account : accounts.values()) {
             System.out.println(account);
+        }
+    }
+
+    public Double viewBalance(Long accountNumber){
+        try{
+           if(accounts.containsKey(accountNumber)){
+               BankAccount account = accounts.get(accountNumber);
+               Double balance = account.getBalance();
+               return balance;
+           }else{
+               throw new InvalidAccountException("Account Not Found");
+           }
+        }catch(InvalidAccountException e){
+            System.out.println("Invalid Account");
+            throw e;
         }
     }
 

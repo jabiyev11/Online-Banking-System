@@ -272,6 +272,7 @@ public class Main {
 
     }
 
+
     private static void addBankAccount() {
         System.out.println("Enter Bank Account Details:");
         System.out.print("Customer ID: ");
@@ -350,15 +351,18 @@ public class Main {
 
         switch (choice) {
             case 1:
-                performDeposit();
+                viewBalance();
                 break;
             case 2:
-                performWithdrawal();
+                performDeposit();
                 break;
             case 3:
-                performTransfer();
+                performWithdrawal();
                 break;
             case 4:
+                performTransfer();
+                break;
+            case 5:
                 backToMainMenu();
                 break;
             default:
@@ -368,11 +372,22 @@ public class Main {
 
     private static void printTransactionMenu() {
         System.out.println("\nTransaction Menu:");
-        System.out.println("1. Deposit");
-        System.out.println("2. Withdraw");
-        System.out.println("3. Transfer");
-        System.out.println("4. Back to Main Menu");
+        System.out.println("1. View Balance");
+        System.out.println("2. Deposit");
+        System.out.println("3. Withdraw");
+        System.out.println("4. Transfer");
+        System.out.println("5. Back to Main Menu");
 
+    }
+
+    private static void viewBalance(){
+        System.out.print("Enter Account Number: ");
+        Long accountNumber = scanner.nextLong();
+        scanner.nextLine();
+
+        Double balance = bankAccountManager.viewBalance(accountNumber);
+
+        System.out.println("Your current balance is $" + balance);
     }
 
     private static void performDeposit() {
