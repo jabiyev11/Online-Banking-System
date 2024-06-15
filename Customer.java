@@ -100,6 +100,9 @@ public class Customer {
         return Objects.hash(name, customerID, address, phoneNumber, email);
     }
 
+    /**
+     * String templates are very cool features, but it is not in stable version, still in Preview feature.
+     */
     @Override
     public String toString() {
         return STR."Customer{name='\{name}\{'\''}, customerID=\{customerID}, address='\{address}\{'\''}, phoneNumber='\{phoneNumber}\{'\''}, email='\{email}\{'\''}\{'}'}";

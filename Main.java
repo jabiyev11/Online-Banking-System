@@ -154,6 +154,10 @@ public class Main {
         }
     }
 
+    /**
+     * You can use String literal(""" """)
+     *
+     */
     private static void printCustomerManagementMenu() {
         System.out.println("\nCustomer Management Menu:");
         System.out.println("1. Add Customer");
@@ -285,7 +289,7 @@ public class Main {
 
         System.out.print("Account Type(SAVINGS, CHECKING, BUSINESS): ");
         String accountTypeInput = scanner.nextLine().toUpperCase();
-        AccountType accountType = AccountType.valueOf(accountTypeInput);
+        AccountType accountType = AccountType.valueOf(accountTypeInput); // TODO what if user inserts wrong?
 
         List<CardType> suggestedCardTypes = accountType.getSuggestedCardTypes();
         System.out.println("Suggested Card Types for " + accountType + ": "  + suggestedCardTypes);

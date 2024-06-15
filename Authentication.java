@@ -11,7 +11,8 @@ public class Authentication {
     public Authentication() {
         this.authenticatedUsers = new HashMap<>();
         this.registeredUsers = new HashMap<>();
-        this.admin = new Customer(null, "Admin", "Admin Address", "Admin Phone", "admin@example.com", "admin", "adminpassword", CustomerType.ADMIN);
+        this.admin = new Customer(null, "Admin", "Admin Address", "Admin Phone",
+                "admin@example.com", "admin", "adminpassword", CustomerType.ADMIN);
         registeredUsers.put("admin", admin);
     }
 

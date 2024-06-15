@@ -1,8 +1,7 @@
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 
 
 public class BankAccount {
@@ -21,15 +20,15 @@ public class BankAccount {
         this.transactionHistory = new ArrayList<>();
     }
 
-    public void addTransactionToHistory(Double amount, String description, LocalDate date){
+    public void addTransactionToHistory(Double amount, String description, LocalDateTime date) {
         Transaction transaction = new Transaction(amount, description, date);
         transactionHistory.add(transaction);
     }
 
-    public List<Transaction> getTransactionsForMonth(Integer year, Integer month){
+    public List<Transaction> getTransactionsForMonth(Integer year, Integer month) {
         List<Transaction> transactionsForMonth = new ArrayList<>();
-        for(Transaction transaction : transactionHistory){
-            if(transaction.getDate().getYear() == year && transaction.getDate().getMonthValue() == month){
+        for (Transaction transaction : transactionHistory) {
+            if (transaction.getDate().getYear() == year && transaction.getDate().getMonthValue() == month) {
                 transactionsForMonth.add(transaction);
             }
         }
@@ -97,12 +96,16 @@ public class BankAccount {
 
     //Inner Class Transaction
 
-    public class Transaction{
+    /**
+     * LocalDateTime will give more details about Time.
+     * I would prefer to make it a record class outside of this class
+     */
+    public class Transaction {
         private Double amount;
         private String description;
-        private LocalDate date;
+        private LocalDateTime date;
 
-        public Transaction(Double amount, String description, LocalDate date) {
+        public Transaction(Double amount, String description, LocalDateTime date) {
             this.amount = amount;
             this.description = description;
             this.date = date;
@@ -116,7 +119,7 @@ public class BankAccount {
             return description;
         }
 
-        public LocalDate getDate() {
+        public LocalDateTime getDate() {
             return date;
         }
     }

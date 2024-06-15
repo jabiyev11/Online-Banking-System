@@ -83,8 +83,7 @@ public class BankAccountManager {
         try{
            if(accounts.containsKey(accountNumber)){
                BankAccount account = accounts.get(accountNumber);
-               Double balance = account.getBalance();
-               return balance;
+               return account.getBalance();
            }else{
                throw new InvalidAccountException("Account Not Found");
            }
@@ -103,7 +102,7 @@ public class BankAccountManager {
             BankAccount account = accounts.get(accountNumber);
             Double newBalance = account.getBalance() + amount;
             account.setBalance(newBalance);
-            LocalDate date = LocalDate.now();
+            LocalDateTime date = LocalDateTime.now();
             account.addTransactionToHistory(amount, "Deposited $" + amount, date);
             System.out.println("Deposit $" + amount + " added into balance of " + accountNumber + " successfully");
         } else {
@@ -123,7 +122,7 @@ public class BankAccountManager {
             if (account.getBalance() >= amount) {
                 Double newBalance = currentBalance - amount;
                 account.setBalance(newBalance);
-                LocalDate date = LocalDate.now();
+                LocalDateTime date = LocalDateTime.now();
                 account.addTransactionToHistory(amount, "Withdrawn $" + amount, date);
                 System.out.println("Withdrawn $" + amount + " from account " + accountNumber);
             } else {
@@ -144,7 +143,7 @@ public class BankAccountManager {
             if (currentBalanceOfSender >= amount) {
                 Double newBalanceOfSender = currentBalanceOfSender - amount;
                 accountOfSender.setBalance(newBalanceOfSender);
-                LocalDate date = LocalDate.now();
+                LocalDateTime date = LocalDateTime.now();
                 accountOfSender.addTransactionToHistory(amount, "Transferred $" + amount + " to account " + accountNumberOfReceiver, date);
                 Double newBalanceOfReceiver = currentBalanceOfReceiver + amount;
                 accountOfReceiver.setBalance(newBalanceOfReceiver);
@@ -199,7 +198,7 @@ public class BankAccountManager {
             boolean foundTransactions = false;
 
             for (BankAccount.Transaction transaction : transactions) {
-                LocalDate transactionDate = transaction.getDate().atStartOfDay().toLocalDate();
+                LocalDate transactionDate = transaction.getDate().toLocalDate();
                 if (transactionDate.getYear() == year && transactionDate.getMonthValue() == month) {
                     if (!foundTransactions) {
                         System.out.println("--------------------------------------------------");

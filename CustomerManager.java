@@ -18,6 +18,9 @@ public class CustomerManager {
         nextCustomerID++;
     }
 
+    /**
+     * Research about Map. putIfAbsent method
+     */
     public void updateCustomer(Customer customer) {
         int customerID = customer.getCustomerID();
         if (customers.containsKey(customerID)) {
@@ -42,7 +45,7 @@ public class CustomerManager {
             }
 
         }
-        return null;
+        return null; // TODO instead of returning null, in case of no user found, you can throw a new exception like "UserNotFoundException"
     }
 
     public void printAllCustomers() {
